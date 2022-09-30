@@ -51,7 +51,7 @@ exp_name = "DSGAN_Gaussian"
 
 if mode == "train":
     # Dataset address
-    train_gt_images_dir = f"./data/DIV2K/DSGAN/train"
+    train_gt_images_dir = f"./data/DF2K/DSGAN/train"
     test_lr_images_dir = f"./data/Set5/original"
 
     gt_image_size = 512
