@@ -47,7 +47,7 @@ upscale_factor = 4
 # Current configuration parameter method
 mode = "train"
 # Experiment name, easy to save weights and log files
-exp_name = "DSGAN_Gaussian"
+exp_name = "DSGAN_x4-DF2K_Gaussian"
 
 if mode == "train":
     # Dataset address
