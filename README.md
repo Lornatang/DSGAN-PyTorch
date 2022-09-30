@@ -1,28 +1,26 @@
-# BSRGAN-PyTorch
+# DSGAN-PyTorch
 
 ## Overview
 
 This repository contains an op-for-op PyTorch reimplementation
-of [Designing a Practical Degradation Model for Deep Blind Image Super-Resolution](https://arxiv.org/pdf/2103.14006v2.pdf)
+of [Frequency Separation for Real-World Super-Resolution](https://arxiv.org/pdf/1911.07850.pdf)
 .
 
 ## Table of contents
 
-- [BSRGAN-PyTorch](#bsrgan-pytorch)
+- [DSGAN-PyTorch](#dsgan-pytorch)
     - [Overview](#overview)
     - [Table of contents](#table-of-contents)
     - [Download weights](#download-weights)
     - [Download datasets](#download-datasets)
     - [How Test and Train](#how-test-and-train)
         - [Test](#test)
-        - [Train BSRNet model](#train-bsrnet-model)
-        - [Resume train BSRNet model](#resume-train-bsrnet-model)
-        - [Train BSRGAN model](#train-bsrgan-model)
-        - [Resume train BSRGAN model](#resume-train-bsrgan-model)
+        - [Train DSGAN model](#train-dsgan-model)
+        - [Resume train DSGAN model](#resume-train-dsgan-model)
     - [Result](#result)
     - [Contributing](#contributing)
     - [Credit](#credit)
-        - [Designing a Practical Degradation Model for Deep Blind Image Super-Resolution](#designing-a-practical-degradation-model-for-deep-blind-image-super-resolution)
+        - [Frequency Separation for Real-World Super-Resolution](#frequency-separation-for-real-world-super-resolution)
 
 ## Download weights
 
@@ -40,72 +38,45 @@ Please refer to `README.md` in the `data` directory for the method of making a d
 
 ## How Test and Train
 
-Both training and testing only need to modify the `bsrnet_config.py` or `bsrgan_config.py` file.
+Both training and testing only need to modify the `config.py` file.
 
 ### Test
 
-modify the `bsrgan_config.py`
+modify the `config.py`
 
-- line 47: `g_arch_name` change to `bsrgan_x4`.
-- line 54: `upscale_factor` change to `4`.
-- line 56: `mode` change to `test`.
-- line 105: `g_model_weights_path` change to `./results/pretrained_models/BSRNet_x4-DIV2K-353eb572.pth.tar`.
+- line 32: `g_arch_name` change to `dsgan`.
+- line 46: `upscale_factor` change to `4`.
+- line 48: `mode` change to `test`.
+- line 98: `g_model_weights_path` change to `./results/pretrained_models/DSGAN_x4-DF2K_Gaussian.pth.tar`.
 -
 
 ```bash
 python3 test.py
 ```
 
-### Train BSRNet model
+### Train DSGAN model
 
-modify the `bsrnet_config.py`
+modify the `config.py`
 
-- line 47: `g_arch_name` change to `bsrgan_x4`.
-- line 54: `upscale_factor` change to `4`.
-- line 56: `mode` change to `train`.
-- line 73: `pretrained_g_model_weights_path` change to `./results/pretrained_models/BSRNet_x4-DIV2K-353eb572.pth.tar`.
-
-```bash
-python3 train_bsrnet.py
-```
-
-### Resume train BSRNet model
-
-modify the `bsrnet_config.py`
-
-- line 47: `g_arch_name` change to `bsrgan_x4`.
-- line 54: `upscale_factor` change to `4`.
-- line 56: `mode` change to `train`.
-- line 76: `resume_g` change to `samples/BSRNet_x4/epoch_xxx.pth.tar`.
-
-```bash
-python3 train_bsrnet.py
-```
-
-### Train BSRGAN model
-
-modify the `bsrgan_config.py`
-
-- line 47: `d_arch_name` change to `discriminator`.
-- line 48: `g_arch_name` change to `bsrgan_x4`.
-- line 55: `upscale_factor` change to `4`.
-- line 57: `mode` change to `train`.
-- line 75: `pretrained_g_model_weights_path` change to `./results/BSRNet_x4/best.pth.tar`.
+- line 31: `d_arch_name` change to `discriminator`.
+- line 32: `g_arch_name` change to `dsgan`.
+- line 46: `upscale_factor` change to `4`.
+- line 48: `mode` change to `train`.
 
 ```bash
 python3 train.py
 ```
 
-### Resume train BSRGAN model
+### Resume train DSGAN model
 
-modify the `bsrgan_config.py`
+modify the `config.py`
 
-- line 47: `d_arch_name` change to `discriminator`.
-- line 48: `g_arch_name` change to `bsrgan_x4`.
-- line 55: `upscale_factor` change to `4`.
-- line 57: `mode` change to `train`.
-- line 78: `resume_d` change to `./results/BSRGAN_x4/d_epoch_xxx.pth.tar`.
-- line 79: `resume_g` change to `./results/BSRGAN_x4/g_epoch_xxx.pth.tar`.
+- line 31: `d_arch_name` change to `discriminator`.
+- line 32: `g_arch_name` change to `dsgan`.
+- line 46: `upscale_factor` change to `4`.
+- line 48: `mode` change to `train`.
+- line 66: `resume_d` change to `./samples/DSGAN_Gaussian/d_epoch_xxx.pth.tar`.
+- line 67: `resume_g` change to `./samples/DSGAN_Gaussian/g_epoch_xxx.pth.tar`.
 
 ```bash
 python3 train.py
@@ -113,37 +84,26 @@ python3 train.py
 
 ## Result
 
-Source of original paper results: [https://arxiv.org/pdf/2103.14006v2.pdf](https://arxiv.org/pdf/2103.14006v2.pdf)
-
-In the following table, the psnr value in `()` indicates the result of the project, and `-` indicates no test.
-
-- RealSRSet
-
-| Model  | Scale |      NIQE      | 
-|:------:|:-----:|:--------------:|
-| BSRNet |   2   |  -(**7.25**)   |
-| BSRGAN |   2   |  -(**6.39**)   |
-| BSRNet |   4   |  -(**8.06**)   |
-| BSRGAN |   4   | 5.60(**5.50**) |
+Source of original paper results: [https://arxiv.org/pdf/1911.07850.pdf](https://arxiv.org/pdf/1911.07850.pdf)
 
 ```bash
-# Download `BSRGAN_x4-DIV2K-6d507222.pth.tar` weights to `./results/pretrained_models`
+# Download `DSGAN_x4-DF2K_Gaussian.pth.tar` weights to `./results/pretrained_models`
 # More detail see `README.md<Download weights>`
 python3 ./inference.py
 ```
 
 Input:
 
-<span align="center"><img width="640" height="640" src="figure/oldphoto2_lr.png"/></span>
+<span align="center"><img width="252" height="252" src="figure/butterfly_gt.png"/></span>
 
 Output:
 
-<span align="center"><img width="640" height="640" src="figure/oldphoto2_sr.png"/></span>
+<span align="center"><img width="252" height="252" src="figure/butterfly_lr.png"/></span>
 
 ```text
-Build `bsrgan_x4` model successfully.
-Load `bsrgan_x4` model weights `./results/pretrained_models/BSRGAN_x4-DIV2K-6d507222.pth.tar` successfully.
-SR image save to `./figure/oldphoto2_sr.png`
+Build `dsgan` model successfully.
+Load `dsgan` model weights `./results/pretrained_models/DSGAN_x4-DF2K_Gaussian.pth.tar` successfully.
+LR image save to `./figure/butterfly_gt.png`
 ```
 
 ## Contributing
@@ -155,33 +115,34 @@ I look forward to seeing what the community does with these models!
 
 ## Credit
 
-### Designing a Practical Degradation Model for Deep Blind Image Super-Resolution
+### Frequency Separation for Real-World Super-Resolution
 
-_Zhang, Kai and Liang, Jingyun and Van Gool, Luc and Timofte, Radu_ <br>
+_Manuel Fritsche, Shuhang Gu, Radu Timofte_ <br>
 
 **Abstract** <br>
-It is widely acknowledged that single image super-resolution (SISR) methods would not perform well if the assumed
-degradation model deviates from those in real images. Although several degradation models take additional factors into
-consideration, such as blur, they are still not effective enough to cover the diverse degradations of real images. To
-address this issue, this paper proposes to design a more complex but practical degradation model that consists of
-randomly shuffled blur, downsampling and noise degradations. Specifically, the blur is approximated by two convolutions
-with isotropic and anisotropic Gaussian kernels; the downsampling is randomly chosen from nearest, bilinear and bicubic
-interpolations; the noise is synthesized by adding Gaussian noise with different noise levels, adopting JPEG compression
-with different quality factors, and generating processed camera sensor noise via reverse-forward camera image signal
-processing (ISP) pipeline model and RAW image noise model. To verify the effectiveness of the new degradation model, we
-have trained a deep blind ESRGAN super-resolver and then applied it to super-resolve both synthetic and real images with
-diverse degradations. The experimental results demonstrate that the new degradation model can help to significantly
-improve the practicability of deep super-resolvers, thus providing a powerful alternative solution for real SISR
-applications.
+Most of the recent literature on image super-resolution (SR) assumes the availability of training data in the form of
+paired low resolution (LR) and high resolution (HR) images or the knowledge of the downgrading operator (usually bicubic
+downscaling). While the proposed methods perform well on standard benchmarks, they often fail to produce convincing
+results in real-world settings. This is because real-world images can be subject to corruptions such as sensor noise,
+which are severely altered by bicubic downscaling. Therefore, the models never see a real-world image during training,
+which limits their generalization capabilities. Moreover, it is cumbersome to collect paired LR and HR images in the
+same source domain.
+To address this problem, we propose DSGAN to introduce natural image characteristics in bicubically downscaled images.
+It can be trained in an unsupervised fashion on HR images, thereby generating LR images with the same characteristics as
+the original images. We then use the generated data to train a SR model, which greatly improves its performance on
+real-world images. Furthermore, we propose to separate the low and high image frequencies and treat them differently
+during training. Since the low frequencies are preserved by downsampling operations, we only require adversarial
+training to modify the high frequencies. This idea is applied to our DSGAN model as well as the SR model. We demonstrate
+the effectiveness of our method in several experiments through quantitative and qualitative analysis. Our solution is
+the winner of the AIM Challenge on Real World SR at ICCV 2019.
 
-[[Paper]](https://arxiv.org/pdf/2103.14006v2.pdf) [[Code]](https://arxiv.org/pdf/2103.14006v2.pdf)
+[[Paper]](https://arxiv.org/pdf/1911.07850.pdf) [[Code]](https://github.com/ManuelFritsche/real-world-sr)
 
 ```bibtex
-@inproceedings{zhang2021designing,
-    title={Designing a Practical Degradation Model for Deep Blind Image Super-Resolution},
-    author={Zhang, Kai and Liang, Jingyun and Van Gool, Luc and Timofte, Radu},
-    booktitle={IEEE International Conference on Computer Vision},
-    pages={4791--4800},
-    year={2021}
+@inproceedings{fritsche2019frequency,
+author={Manuel Fritsche and Shuhang Gu and Radu Timofte},
+title ={Frequency Separation for Real-World Super-Resolution},
+booktitle={IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
+year = {2019},
 }
 ```
