@@ -75,8 +75,8 @@ modify the `config.py`
 - line 32: `g_arch_name` change to `dsgan`.
 - line 46: `upscale_factor` change to `4`.
 - line 48: `mode` change to `train`.
-- line 66: `resume_d` change to `./samples/DSGAN_Gaussian/d_epoch_xxx.pth.tar`.
-- line 67: `resume_g` change to `./samples/DSGAN_Gaussian/g_epoch_xxx.pth.tar`.
+- line 66: `resume_d` change to `./samples/DSGAN_x4-DF2K_Gaussian/d_epoch_xxx.pth.tar`.
+- line 67: `resume_g` change to `./samples/DSGAN_x4-DF2K_Gaussian/g_epoch_xxx.pth.tar`.
 
 ```bash
 python3 train.py
